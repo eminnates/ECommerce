@@ -1,0 +1,14 @@
+
+# İşletim sistemi
+.DS_Store
+Thumbs.db
+
+# Editör
+.vs/
+.idea/
+*.swp
+*~
+
+# Ortam dosyaları
+.env
+.env.local

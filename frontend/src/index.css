@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+/*
+ * Editoryal / minimal mağaza teması: siyah-beyaz zemin, keskin köşeler,
+ * uppercase ve harf aralığı açılmış tipografi. Renk yalnızca ürün
+ * görsellerinden ve durum bilgilerinden gelir.
+ */
+@theme {
+  --color-ink-50: #f6f6f5;
+  --color-ink-100: #ebeae8;
+  --color-ink-200: #dcdad6;
+  --color-ink-300: #b8b5af;
+  --color-ink-400: #8a8781;
+  --color-ink-500: #5f5c57;
+  --color-ink-600: #403d3a;
+  --color-ink-700: #2a2826;
+  --color-ink-800: #1a1918;
+  --color-ink-900: #0e0e0d;
+
+  --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+}
+
+body {
+  @apply bg-white font-sans text-ink-800 antialiased;
+}
+
+/* Uppercase etiket/buton tipografisi tek yerde tanımlanır. */
+@utility label-caps {
+  @apply text-[0.6875rem] font-semibold uppercase tracking-[0.14em];
+}
+
+/* Sayı input'undaki tarayıcı okları miktar stepper'ı ile çakışıyor. */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+::selection {
+  @apply bg-ink-900 text-white;
+}

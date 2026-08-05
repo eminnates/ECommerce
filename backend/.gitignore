@@ -1,0 +1,50 @@
+# Build çıktıları
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Bb]uild/
+[Pp]ublish/
+*.dll
+*.exe
+*.pdb
+
+# Kullanıcıya özel dosyalar
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.swp
+
+# Yerel yapılandırma — bağlantı dizeleri ve sırlar repoya girmez
+appsettings.Local.json
+appsettings.*.local.json
+secrets.json
+*.env
+
+# Test / araç çıktıları
+[Tt]est[Rr]esult*/
+coverage*.json
+coverage*.xml
+*.coverage
+BenchmarkDotNet.Artifacts/
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+!packages/build/
+
+# İşletim sistemi
+.DS_Store
+Thumbs.db
