@@ -98,7 +98,7 @@ Tüm hatalar RFC 7807 **ProblemDetails** formatında döner:
 
 ### Problemi hangi parçalara ayırdınız?
 
-En temel ayrım **okuma** ile **yazma** arasında: ürün listeleme yan etkisiz ve çok tekrarlanan bir işlem (cache'lenebilir), sipariş oluşturma ise stok düşüren, transaction gerektiren tek yazma yolu. Bu ayrım doğrudan koda yansıdı — `IProductService` ve `IOrderService` ayrı servisler, cache yalnızca birincisinde var. Frontend'de de aynı ayrım `features/products` ve `features/orders` klasörleri olarak duruyor.
+En temel ayrım **okuma** ile **yazma** arasında: ürün listeleme yan etkisiz ve çok tekrarlanan bir işlem (cache'lenebilir), sipariş oluşturma ise stok düşüren, transaction gerektiren bir işlem burada cache mantığını sadece okuma(read) işlemlerinde eklemem gerekti. Bu ayrım doğrudan koda yansıdı `IProductService` ve `IOrderService` ayrı servisler, cache sistemi yalnızca birincisinde var. Frontend'de de aynı ayrım `features/products` ve `features/orders` klasörleri olarak duruyor.
 
 Sipariş oluşturmanın kendisi de sırayla şu adımlara bölündü: girdi doğrulama → aynı ürünün tekrar eden kalemlerini birleştirme → ürünleri kilitleyerek okuma → stok kontrolü → sipariş yazma ve stok düşürme → cache tazeleme.
 
@@ -143,7 +143,7 @@ Tamamı `Services/OrderService.cs` içindeki `CreateAsync` metodunda:
 
 ### Cache'i nerede ve neden kullandınız?
 
-Yalnızca ürün **okuma** işlemi sırasında: `ProductService.GetAllAsync` ve `GetByIdAsync`, `IMemoryCache` üzerinden. Ürün listesi çok okunan / az değişen bir veri ve her sayfa yenilemesinde aynı sorgu tekrar ediyor. Sipariş yolu ise **hiçbir zaman** cache'lenmez — tutarlılığın hız'dan önce geldiği yer orası.
+Yalnızca ürün **okuma** işlemi sırasında: `ProductService.GetAllAsync` ve `GetByIdAsync`, `IMemoryCache` üzerinden. Ürün listesi çok okunan / az değişen bir veri ve her sayfa yenilemesinde aynı sorgu tekrar ediyor. Sipariş ise **hiçbir zaman** cache'lenmez burada tutarlılık her şeyden önce gelir.
 
 İki ayrıntı önemliydi:
 
@@ -176,13 +176,12 @@ TTL'in dolmasını beklemek yeterli değil — sipariş sonrası kullanıcı sto
 
 ### Hangi AI araçlarını kullandınız?
 
-Testleri yazarken ve Frontend designında **Claude Code**'da
-n yardım aldım
+Testleri yazarken ve Frontend designında **Claude Code**'dan yardım aldım
 ### AI tarafından üretilen kodları nasıl kontrol ettiniz?
 
 İki şekilde:
 
-**Satır satır okuyarak.** Üretilen her kod gözden geçirildi; anlamadığım veya katılmadığım yerler değiştirildi. Örneğin başlangıçta Yapay Zekanın önerdiği repository katmanı koddaki karmaşıklığı arttıracağından dolayı çıkarıldı. Kodda duran yorumlar da bu okumanın çıktısı — "ne yapıyor" değil, **"neden böyle"** sorusunu cevaplıyorlar (cache invalidation'ın neden commit'ten sonra olduğu, fiyatın neden kopyalandığı gibi).
+**Satır satır okuyarak.** Üretilen her kod gözden geçirildi; anlamadığım veya katılmadığım yerler değiştirildi. Örneğin başlangıçta Yapay Zekanın önerdiği repository katmanı koddaki karmaşıklığı arttıracağından dolayı çıkarıldı. Kodda duran yorumlar da bu okumanın çıktısı; "ne yapıyor" değil, **"neden böyle"** sorusunu cevaplıyorlar (cache invalidation'ın neden commit'ten sonra olduğu, fiyatın neden kopyalandığı gibi).
 
 **Testle sabitleyerek.** Kritik business kuralları için test yazıldı. Daha önemlisi, testlerin gerçekten iş görüp görmediği kontrol edildi: üretim kodundaki stok düşürme satırı ve stok kontrolü **kasten bozulup** testlerin kırmızıya döndüğü görüldü, sonra geri alındı. Geçen bir test, doğru şeyi test ettiğini kendiliğinden kanıtlamıyor.
 
@@ -190,7 +189,7 @@ Ayrıca uygulama sıfırdan bir veritabanıyla ayağa kaldırılıp yetersiz sto
 
 ### Çalışmaya yaklaşık ne kadar zaman ayırdınız?
 
-Yaklaşık **6 saat**' imi aldı.
+Yaklaşık **6 saat** sürdü.
 
 ---
 
