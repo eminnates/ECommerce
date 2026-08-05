@@ -4,6 +4,8 @@
 
 **Stack:** ASP.NET Core 9 (Web API) · EF Core 9 · PostgreSQL · React 19 + TypeScript + Vite · Tailwind CSS 4
 
+![Ürün listesi ekranı](docs/urunler.png)
+
 ```
 React (Vite dev server :5173)
     │  /api/... isteklerini proxy'ler
